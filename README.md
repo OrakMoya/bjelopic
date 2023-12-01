@@ -1,6 +1,6 @@
 # Bjelopic
 
-Official website of [Bjelopic](dev.bjelopic.com)
+Official website of [Bjelopic](https://dev.bjelopic.com)
 
 ## Building:
 
