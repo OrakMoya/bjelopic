@@ -12,6 +12,7 @@
 	const socialsLinks = [
 		{id:1, page:"https://www.facebook.com/bjelopic", name:"Facebook"},
 		{id:2, page:"https://www.instagram.com/bjelopic/", name:"Instagram"},
+		{id:3, page: "https://github.com/OrakMoya/bjelopic", name:"GitHub"}
 	]
 	const navigationSections = [
 		{id:1, section:"Informacije", links:infoLinks},
@@ -22,7 +23,9 @@
 <footer class="bg-black text-white py-10">
 	<div class="flex flex-wrap justify-between max-w-screen-2xl mx-auto my-4">
 		<div>
-			<img class="w-8" src="{logo}" alt="">
+			<a href="/">
+				<img class="w-8" src="{logo}" alt="">
+			</a>
 			<span class="text-2xl font-bold">{@html name}</span>
 			<p>{caption}</p>
 		</div>
@@ -36,6 +39,6 @@
 				</nav>
 			{/each}
 		</div>
-		<span class="w-full text-center font-bold basis-full my-4">Copyright BjeloPIC 2023 | Sva prava pridržana</span>
+		<span class="w-full text-center font-bold basis-full mt-4">Copyright BjeloPIC 2023 | Sva prava pridržana</span>
 	</div>
 </footer>

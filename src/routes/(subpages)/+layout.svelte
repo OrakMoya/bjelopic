@@ -1,9 +1,6 @@
 <script>
 	import Footer from '../Footer.svelte';
-import Header from '../Header.svelte';
-
-    /** @type {import('./$types').LayoutData} */
-    export let data;
+    import Header from '../Header.svelte';
 </script>
 
 <Header />
