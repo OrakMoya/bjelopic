@@ -42,7 +42,7 @@
 
 <svelte:window bind:scrollY={y} bind:innerHeight={viewport_height} />
 
-<section class="bg-black h-screen w-full flex items-center transition-all">
+<section class="bg-black w-full flex items-end transition-all" style="height: {Math.floor(videoscreensizepercent+((100-videoscreensizepercent)/2))}vh;">
 	<div class="w-full flex flex-wrap items-center justify-center h-[{videoscreensizepercent}vh]" style="height: {videoscreensizepercent}vh;">
 
 		<video autoplay muted loop class="absolute w-full object-cover" style="height: {videoscreensizepercent}vh;">
