@@ -5,9 +5,15 @@ FROM node:latest AS builder
 # Specify the working directory
 RUN mkdir /app && mkdir /app/data
 
-COPY . /app
+COPY . /app/
 
-RUN cd /app && npm install && npm run build
+ENV MONGO_URL="127.0.0.1"
+ENV MONGO_PORT="27017"
+ENV MONGO_DB="test"
+
+RUN cd /app && npm install
+RUN ls /app
+RUN cd /app && npm run build
 
 
 FROM node:latest

@@ -4,5 +4,7 @@
 </script>
 
 <Header />
-<slot />
+<main class="max-w-screen-2xl mx-auto">
+	<slot />
+</main>
 <Footer />

@@ -1,76 +1,149 @@
-
 <script>
 	import introvideo from '$lib/intro-sequence.mp4';
-	import { linear, quintOut } from 'svelte/easing';
+	import { expoIn, expoOut, linear, quadInOut, quintOut } from 'svelte/easing';
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
-	const videoscreensizepercent = 70;
+	const portrait_size = 80;
+	const landscape_size = 70;
 	const title_delay = 1200;
 	const title_anim_duration = 5000;
-	const timer_seconds = 5;
+	const timer_seconds = 2;
+
 	let links_shown = false;
-
-	/**
-	 * @type {number}
-	 */
+	/** @type {number} */
 	let y;
-	/**
-	 * @type {number}
-	 */
+	/** @type {number} */
 	let viewport_height;
+	/** @type {number} */
+	let viewport_width;
+	$: videoscreensizepercent = landscape_size;
 
+	let timer_disabled = false;
 	let timer = tweened(timer_seconds);
-	setInterval( ()=> {
-		if ($timer>0 && y===0) $timer--;
-		else if (y!==0) timer = tweened(timer_seconds);
+	setInterval(() => {
+		if ($timer > 0 && y === 0) $timer--;
+		else if (y !== 0) timer = tweened(timer_seconds);
 	}, 1000);
-	const resetTimer = () => timer = tweened(timer_seconds);
+	const resetTimer = () => (timer = tweened(timer_seconds));
 
+	let arrow_timer = tweened((title_delay + title_anim_duration / 2) / 1000);
+	setInterval(() => {
+		if ($arrow_timer > 0) $arrow_timer--;
+	}, 1000);
 
-	const toggleSubtitleLinks = (/** @type {number} */ y, /** @type {number} */ timer) => {if(y>0){ links_shown = true} else if(timer===0){links_shown = false}};
+	let arrows_shown = false;
+	$: arrows_shown = $arrow_timer <= 0;
+	const toggleSubtitleLinks = (/** @type {number} */ y, /** @type {number} */ timer) => {
+		if (y > 0) {
+			links_shown = true;
+		} else if (timer === 0 && !timer_disabled) {
+			links_shown = false;
+		}
+	};
 	$: toggleSubtitleLinks(y, $timer);
 	let show = false;
-	onMount( () => show = true )
+	onMount(() => (show = true));
 
 	const subtitle_links = [
-		{id: 1, page: "/gallery", name: "Galerija Radova"},
-		{id: 2, page: "/history", name: "Povijest Studija"},
-		{id: 3, page: "/about", name: "O Nama"},
-	]
+		{ id: 1, page: '/gallery', name: 'Galerija Radova' },
+		{ id: 2, page: '/history', name: 'Povijest Studija' },
+		{ id: 3, page: '/about', name: 'O Nama' }
+	];
 </script>
 
-<svelte:window bind:scrollY={y} bind:innerHeight={viewport_height} />
+<svelte:window
+	bind:scrollY={y}
+	bind:innerHeight={viewport_height}
+	bind:innerWidth={viewport_width}
+/>
 
-<section class="bg-black w-full flex items-end transition-all" style="height: {Math.floor(videoscreensizepercent+((100-videoscreensizepercent)/2))}vh;">
-	<div class="w-full flex flex-wrap items-center justify-center h-[{videoscreensizepercent}vh]" style="height: {videoscreensizepercent}vh;">
-
-		<video autoplay muted loop class="absolute w-full object-cover" style="height: {videoscreensizepercent}vh;">
-			<source src={introvideo} type="video/mp4">
+<section
+	class="bg-black w-full flex items-end transition-all"
+	style="height: {Math.floor(videoscreensizepercent + (100 - videoscreensizepercent) / 2)}vh;"
+>
+	<div
+		class="w-full flex flex-wrap items-center justify-center h-[{videoscreensizepercent}vh]"
+		style="height: {videoscreensizepercent}vh;"
+	>
+		<video
+			autoplay
+			muted
+			loop
+			class="absolute w-full object-cover"
+			style="height: {videoscreensizepercent}vh;"
+		>
+			<source src={introvideo} type="video/mp4" />
 		</video>
 
 		<!--Title and subtitle animation-->
 		{#if show}
-			<section transition:fade={ {delay: title_delay, duration: title_anim_duration, easing: quintOut} }
-			 class="bg-black z-[1] bg-opacity-60 w-full h-full grid items-center duration-[1500ms]" style=" grid-template-rows: {(y>0||links_shown) ? "3fr 2fr 1fr 3fr" : "0fr 1fr 0fr 0fr" }; ">
-			 	<div class="transition-all"></div>
-			 	<div class="mx-auto text-white transition-all" transition:fly={ {delay: title_delay, duration: title_anim_duration, x: 0, y: 40, opacity: 0, easing: (t) => t === 1.0 ? t : 1.0 - Math.pow(2.7, -10.0 * t)} }>
-					<div class="text-center text-6xl transition-all duration-700 sm:text-8xl lg:text-9xl drop-shadow-md">Bjelo<b>PIC</b></div>
-				</div>
-				<div class="transition-all h-[0vh]">
-					{#if links_shown}
-						<div class="flex flex-col sm:flex-row justify-center items-center h-20" transition:fade={{delay: 400, duration: 500, easing: linear}}>
-							{#each subtitle_links as link}
-								<a href="{link.page}" class="inline text-white text-center mx-6 mb-2 sm:mb-0 transition-all hover:text-xl uppercase" 
-								on:mousemove={resetTimer}>{link.name}</a>
-							{/each}
+			<section
+				transition:fade={{ delay: title_delay, duration: title_anim_duration, easing: quintOut }}
+				class="bg-black z-[1] bg-opacity-60 w-full h-full flex items-center justify-center"
+			>
+				<!-- svelte-ignore a11y-no-static-element-interactions -->
+				<div
+					class="grid items-center duration-[1500ms] h-min px-16 py-10"
+					on:mouseenter={() => {
+						timer_disabled = true;
+						links_shown = true;
+					}}
+					on:mouseleave={() => {
+						timer_disabled = false;
+						resetTimer();
+					}}
+					style=" grid-template-rows: {y > 0 || links_shown
+						? '3fr 2fr 1fr 3fr'
+						: '0fr 1fr 0fr 0fr'}; "
+				>
+					<div class="transition-all"></div>
+					<div
+						class="mx-auto text-white transition-all"
+						transition:fly={{
+							delay: title_delay,
+							duration: title_anim_duration,
+							x: 0,
+							y: 40,
+							opacity: 0,
+							easing: (t) => (t === 1.0 ? t : 1.0 - Math.pow(2.7, -10.0 * t))
+						}}
+					>
+						<div
+							class="text-center text-7xl transition-all my-4 sm:my-0 duration-700 sm:text-8xl lg:text-9xl drop-shadow-md"
+						>
+							Bjelo<b>PIC</b>
 						</div>
-					{/if}
-				</div>
-				<div class="transition-all">
+						{#if !links_shown && arrows_shown}
+								<div
+									class="text-center absolute left-1/2 -translate-x-1/2 my-0 transition-all"
+									transition:fly={{ delay: 200, duration: 700, easing: quadInOut, y:-10}}
+								>
+									<div class="animate-bounce text-3xl relative -top-3 sm:top-0 transition-all duration-700">
+										↓
+									</div>
+								</div>
+						{/if}
+					</div>
+					<div class="transition-all h-[0vh]">
+						{#if links_shown}
+							<div
+								class="flex flex-col sm:flex-row justify-center items-center h-20"
+								transition:fade={{ delay: 0, duration: 500, easing: linear }}
+							>
+								{#each subtitle_links as link}
+									<a
+										href={link.page}
+										class="inline text-white text-center mx-6 mb-2 sm:mb-0 transition-all hover:text-xl uppercase"
+										>{link.name}</a
+									>
+								{/each}
+							</div>
+						{/if}
+					</div>
+					<div class="transition-all"></div>
 				</div>
 			</section>
 		{/if}
-
 	</div>
 </section>

@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_DB: test
+    command: --bind_ip_all
+    ports:
+      - 27018:27017
+    volumes:
+      - mongodbdata:/data/db
+    networks:
+      - dbnetwork
+
+  bjelopic:
+    image: bjelopic:latest
+    env_file:
+      - ./.env
+    ports:
+      - 3000:3000
+    networks:
+      - dbnetwork
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URL="mongodb"
+      - MONGO_PORT="217018"
+      - MONGO_DB="test"
+    command: node build/index.js
+
+networks:
+  dbnetwork:
+    driver: bridge
+
+volumes:
+  mongodbdata:
