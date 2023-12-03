@@ -18,8 +18,8 @@
 	}
 </script>
 
-<h1>O nama</h1>
-
+<h1 class="text-2xl">O nama</h1>
+Zasad prazno sorkač ono 
 
 <form method="post">
 	<label>

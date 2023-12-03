@@ -4,6 +4,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
+	import FaAngleDown from 'svelte-icons/fa/FaAngleDown.svelte'
 	const portrait_size = 80;
 	const landscape_size = 70;
 	const title_delay = 1200;
@@ -13,13 +14,8 @@
 	let links_shown = false;
 	/** @type {number} */
 	let y;
-	/** @type {number} */
-	let viewport_height;
-	/** @type {number} */
-	let viewport_width;
 	$: videoscreensizepercent = landscape_size;
 
-	let timer_disabled = false;
 	let timer = tweened(timer_seconds);
 	setInterval(() => {
 		if ($timer > 0 && y === 0) $timer--;
@@ -34,14 +30,7 @@
 
 	let arrows_shown = false;
 	$: arrows_shown = $arrow_timer <= 0;
-	const toggleSubtitleLinks = (/** @type {number} */ y, /** @type {number} */ timer) => {
-		if (y > 0) {
-			links_shown = true;
-		} else if (timer === 0 && !timer_disabled) {
-			links_shown = false;
-		}
-	};
-	$: toggleSubtitleLinks(y, $timer);
+	$: links_shown = y > 0 ? true : links_shown;
 	let show = false;
 	onMount(() => (show = true));
 
@@ -54,8 +43,6 @@
 
 <svelte:window
 	bind:scrollY={y}
-	bind:innerHeight={viewport_height}
-	bind:innerWidth={viewport_width}
 />
 
 <section
@@ -70,8 +57,8 @@
 			autoplay
 			muted
 			loop
-			class="absolute w-full object-cover"
-			style="height: {videoscreensizepercent}vh;"
+			class="absolute w-full object-cover transition-all duration-1000 delay-1000 "
+			style="height: {videoscreensizepercent}vh; {show ? 'filter: brightness(0.4);' : '' } "
 		>
 			<source src={introvideo} type="video/mp4" />
 		</video>
@@ -80,19 +67,11 @@
 		{#if show}
 			<section
 				transition:fade={{ delay: title_delay, duration: title_anim_duration, easing: quintOut }}
-				class="bg-black z-[1] bg-opacity-60 w-full h-full flex items-center justify-center"
+				class=" w-full h-full flex items-center justify-center z-10"
 			>
 				<!-- svelte-ignore a11y-no-static-element-interactions -->
 				<div
-					class="grid items-center duration-[1500ms] h-min px-16 py-10"
-					on:mouseenter={() => {
-						timer_disabled = true;
-						links_shown = true;
-					}}
-					on:mouseleave={() => {
-						timer_disabled = false;
-						resetTimer();
-					}}
+					class="grid items-center duration-[1500ms] h-min"
 					style=" grid-template-rows: {y > 0 || links_shown
 						? '3fr 2fr 1fr 3fr'
 						: '0fr 1fr 0fr 0fr'}; "
@@ -110,25 +89,21 @@
 						}}
 					>
 						<div
-							class="text-center text-7xl transition-all my-4 sm:my-0 duration-700 sm:text-8xl lg:text-9xl drop-shadow-md"
+							class="text-center text-7xl transition-all  duration-700 sm:text-8xl lg:text-9xl drop-shadow-md justify-center flex"
 						>
+							<div class="absolute -translate-y-1/4" style="width: 50vw; height: 50vh;" on:mouseenter={()=>links_shown=true} />
 							Bjelo<b>PIC</b>
 						</div>
-						{#if !links_shown && arrows_shown}
-								<div
-									class="text-center absolute left-1/2 -translate-x-1/2 my-0 transition-all"
-									transition:fly={{ delay: 200, duration: 700, easing: quadInOut, y:-10}}
-								>
-									<div class="animate-bounce text-3xl relative -top-3 sm:top-0 transition-all duration-700">
-										↓
-									</div>
-								</div>
-						{/if}
-					</div>
-					<div class="transition-all h-[0vh]">
-						{#if links_shown}
 							<div
-								class="flex flex-col sm:flex-row justify-center items-center h-20"
+								class="text-center absolute left-1/2 -translate-x-1/2  transition-opacity duration-700 w-8 h-8 {(!links_shown && arrows_shown) ? 'opacity-100' :
+								'opacity-0'}"
+							>
+								<FaAngleDown />
+							</div>
+					</div>
+					<div class="transition-all h-[0vh] duration-700 relative {links_shown ? 'opacity-100 top-0' : 'opacity-0 top-8'} ">
+							<div
+								class="flex flex-col sm:flex-row justify-center items-center h-20 md:h-10"
 								transition:fade={{ delay: 0, duration: 500, easing: linear }}
 							>
 								{#each subtitle_links as link}
@@ -139,7 +114,6 @@
 									>
 								{/each}
 							</div>
-						{/if}
 					</div>
 					<div class="transition-all"></div>
 				</div>
