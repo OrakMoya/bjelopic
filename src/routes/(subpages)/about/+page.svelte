@@ -33,17 +33,3 @@ Zasad prazno sorkač ono
 {:else}	
 	No element selected
 {/if}
-
-{#await data.streamed.test}
-	LooDing
-{:then value}
-	{#each value as item}
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div on:mouseenter={(node)=>selectNode(node.currentTarget)}>
-			{item.description}
-		</div>
-	{/each}
-{:catch error}
-	{error.message}
-{/await}

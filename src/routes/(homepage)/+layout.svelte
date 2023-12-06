@@ -1,9 +1,10 @@
 <script>
-	import Header from '../Header.svelte';
-	import Footer from '../Footer.svelte';
+	import Header from '$lib/Header.svelte';
+	import Footer from '$lib/Footer.svelte';
+	import Meta from '$lib/Meta.svelte';
 	import { fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
-
+	
 	/**
 	 * @type {number}
 	 */
@@ -13,12 +14,18 @@
 	 * @type {number}
 	 */
 	let viewport_height;
+
+	let page_title = "BjeloPIC";
 </script>
+
+<Meta title={page_title} append_website={false} />
+
+
 
 {#if y > 0}
 	<div
 		transition:fly={{ delay: 0, duration: 700, x: 0, y: -200, opacity: 1, easing: quintOut }}
-		class="fixed top-0 w-full z-10"
+		class="fixed top-0 w-full z-20"
 	>
 		<Header
 			caption_additional_classes={viewport_height >= 768

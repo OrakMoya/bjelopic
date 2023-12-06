@@ -57,8 +57,8 @@
 			autoplay
 			muted
 			loop
-			class="absolute w-full object-cover transition-all duration-1000 delay-1000 "
-			style="height: {videoscreensizepercent}vh; {show ? 'filter: brightness(0.4);' : '' } "
+			class="absolute w-full object-cover "
+			style="-webkit-transition: -webkit-filter 1000ms 1000ms; height: {videoscreensizepercent}vh; {show ? 'filter: brightness(0.4);' : '' }; "
 		>
 			<source src={introvideo} type="video/mp4" />
 		</video>
@@ -101,7 +101,7 @@
 								<FaAngleDown />
 							</div>
 					</div>
-					<div class="transition-all h-[0vh] duration-700 relative {links_shown ? 'opacity-100 top-0' : 'opacity-0 top-8'} ">
+					<div class="transition-all h-[0vh] duration-[1500ms] relative {links_shown ? 'opacity-100 top-0' : 'opacity-0 top-8'} ">
 							<div
 								class="flex flex-col sm:flex-row justify-center items-center h-20 md:h-10"
 								transition:fade={{ delay: 0, duration: 500, easing: linear }}

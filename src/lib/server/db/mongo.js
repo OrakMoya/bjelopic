@@ -7,6 +7,7 @@ const MONGO_DB = env.MONGO_DB;
 const client = new MongoClient("mongodb://"+MONGO_URL+":"+MONGO_PORT+"/"+MONGO_DB);
 
 export async function start_mongo() {
+	console.log("Connecting to: "+"mongodb://"+MONGO_URL+":"+MONGO_PORT+"/"+MONGO_DB)
 	return client.connect();
 }
 

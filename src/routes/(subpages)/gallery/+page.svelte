@@ -1,4 +1,45 @@
 <script>
-    
+	// @ts-ignore
+	import YouTubeIFrame from '$lib/YouTubeIFrame.svelte';
+	export let data;
 </script>
-<h1>Galerija</h1>
+
+{#await data.streamed.gallery_items}
+	<!-- promise is pending -->
+{:then gallery_items}
+	{#each gallery_items as item, i}
+		<section class="w-full {i % 2 === 0 ? 'bg-slate-800' : 'bg-slate-900'} text-white p-6">
+			<div class="w-full max-w-6xl mx-auto flex justify-center flex-wrap-reverse">
+				<div
+					class="flex flex-wrap w-full {item.youtubeVideoIds.length > 1 ? 'w-full' : 'md:w-2/3'}"
+				>
+					{#each item.youtubeVideoIds as youtubeVideoId, j}
+						<div
+							class=" drop-shadow-sm hover:scale-105 transition-all duration-700 w-full p-2 {item
+								.youtubeVideoIds.length > 1 && j != item.youtubeVideoIds.length - 1
+								? 'md:w-1/2'
+								: ''} {(j===item.youtubeVideoIds.length-1 && item.youtubeVideoIds.length>1)?'md:w-2/3 mx-auto' : ' '}"
+						>
+							<YouTubeIFrame initialVideoID={youtubeVideoId} playerID="player-{j}-{i}" />
+						</div>
+					{/each}
+				</div>
+				<article
+					class="w-full p-2 md:pl-6 text-center {item.youtubeVideoIds.length > 1
+						? 'md:w-full basis-100'
+						: 'md:text-left md:w-1/3 '}"
+				>
+					<h2 class="text-2xl lg:text-4xl mb-1 font-bold transition-all">{item.title}</h2>
+					<h4 class="text-lg mb-2">{item.category}</h4>
+					<div class="flex flex-wrap justify-center w-full {item.youtubeVideoIds.length>1 ? 'md:justify-center' : 'md:justify-normal'}">
+						{#each item.roles as role}
+							<span class="bg-orange-500 md:mb-2 {item.youtubeVideoIds.length > 1 ? 'mx-2' : 'mx-2 md:ml-0 md:mr-2'} px-2 rounded drop-shadow-lg">
+								{role}
+							</span>
+						{/each}
+					</div>
+				</article>
+			</div>
+		</section>
+	{/each}
+{/await}

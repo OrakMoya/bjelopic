@@ -7,12 +7,14 @@
 		{ id: 1, page: '/about', name: 'O nama' },
 		{ id: 2, page: '/team', name: 'Naši zaposlenici' },
 		{ id: 3, page: '/history', name: 'Povijest' },
-		{ id: 4, page: '/contact', name: 'Kontakt' }
+		{ id: 4, page: '/contact', name: 'Kontakt' },
+		{ id: 5, page: '/gallery', name: 'Galerija'}
 	];
 	const socialsLinks = [
 		{ id: 1, page: 'https://www.facebook.com/bjelopic', name: 'Facebook' },
 		{ id: 2, page: 'https://www.instagram.com/bjelopic/', name: 'Instagram' },
-		{ id: 3, page: 'https://github.com/OrakMoya/bjelopic', name: 'GitHub' }
+		{ id: 3, page: 'https://github.com/OrakMoya/bjelopic', name: 'GitHub' },
+		{ id: 4, page: 'https://www.youtube.com/@bjelopic', name: "YouTube"}
 	];
 	const navigationSections = [
 		{ id: 1, section: 'Informacije', links: infoLinks },
@@ -20,8 +22,8 @@
 	];
 </script>
 
-<footer class="bg-black text-white py-5 px-5">
-	<div class="flex flex-wrap justify-center sm:justify-around max-w-screen-2xl mx-auto my-4">
+<footer class="bg-black text-white py-5 px-2">
+	<div class="flex flex-wrap justify-center sm:justify-around max-w-7xl mx-auto my-4">
 		<div class="flex flex-col items-center sm:block">
 			<a href="/">
 				<img class="w-8" src={logo} alt="" />

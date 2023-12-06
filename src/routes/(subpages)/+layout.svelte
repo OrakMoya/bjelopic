@@ -1,10 +1,14 @@
 <script>
-	import Footer from '../Footer.svelte';
-    import Header from '../Header.svelte';
+	import Footer from '$lib/Footer.svelte';
+    import Header from '$lib/Header.svelte';
+
 </script>
 
+
+
 <Header />
-<main class="max-w-screen-2xl mx-auto">
+	<div class="absolute -z-10 overflow-hidden w-full  h-screen top-0">
+		<img src="images/background.jpg" alt="background" class="w-full h-full object-center object-cover blur-md scale-110">
+	</div>
 	<slot />
-</main>
 <Footer />
