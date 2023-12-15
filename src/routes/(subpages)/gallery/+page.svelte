@@ -1,11 +1,21 @@
 <script>
 	// @ts-ignore
-	import YouTubeIFrame from '$lib/YouTubeIFrame.svelte';
+	import YouTubeIFrame from '$lib/page_components/YouTubeIFrame.svelte';
 	export let data;
+
+	/**
+	 * @param {string | number | Date} date
+	 */
+	function formatDate(date) {
+		let string = '';
+		let dateObj = new Date(date);
+		string += dateObj.getDay() + '.' + dateObj.getMonth() + '.' + dateObj.getFullYear() + '.';
+		return string;
+	}
 </script>
 
 {#await data.streamed.gallery_items}
-	<!-- promise is pending -->
+	LooDung
 {:then gallery_items}
 	{#each gallery_items as item, i}
 		<section class="w-full {i % 2 === 0 ? 'bg-slate-800' : 'bg-slate-900'} text-white p-6">
@@ -18,7 +28,9 @@
 							class=" drop-shadow-sm hover:scale-105 transition-all duration-700 w-full p-2 {item
 								.youtubeVideoIds.length > 1 && j != item.youtubeVideoIds.length - 1
 								? 'md:w-1/2'
-								: ''} {(j===item.youtubeVideoIds.length-1 && item.youtubeVideoIds.length>1)?'md:w-2/3 mx-auto' : ' '}"
+								: ''} {j === item.youtubeVideoIds.length - 1 && item.youtubeVideoIds.length > 1
+								? 'md:w-2/3 mx-auto'
+								: ' '}"
 						>
 							<YouTubeIFrame initialVideoID={youtubeVideoId} playerID="player-{j}-{i}" />
 						</div>
@@ -31,9 +43,13 @@
 				>
 					<h2 class="text-2xl lg:text-4xl mb-1 font-bold transition-all">{item.title}</h2>
 					<h4 class="text-lg mb-2">{item.category}</h4>
-					<div class="flex flex-wrap justify-center w-full {item.youtubeVideoIds.length>1 ? 'md:justify-center' : 'md:justify-normal'}">
+					<div
+						class="flex flex-wrap justify-center w-full gap-2 {item.youtubeVideoIds.length > 1
+							? 'md:justify-center'
+							: 'md:justify-normal'}"
+					>
 						{#each item.roles as role}
-							<span class="bg-orange-500 md:mb-2 {item.youtubeVideoIds.length > 1 ? 'mx-2' : 'mx-2 md:ml-0 md:mr-2'} px-2 rounded drop-shadow-lg">
+							<span class="bg-orange-500 px-2 rounded drop-shadow-lg">
 								{role}
 							</span>
 						{/each}

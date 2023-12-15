@@ -14,7 +14,9 @@
 			</div>
 		</a>
 		<span
-			class="w-fit text-center {caption_additional_classes === '' ? 'text-base sm:text-lg md:text-xl' : ' '} font-bold {caption_additional_classes} transition-all duration-700"
+			class="w-fit text-center {caption_additional_classes === ''
+				? 'text-base sm:text-lg md:text-xl'
+				: ' '} font-bold {caption_additional_classes} transition-all duration-700"
 		>
 			{caption}
 		</span>

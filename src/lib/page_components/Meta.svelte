@@ -1,6 +1,6 @@
 <script>
-	import {website_title} from './stores.js';
-	export let title = "";
+	import { website_title } from '../stores.js';
+	export let title = '';
 	export let append_website = true;
 </script>
 

@@ -8,13 +8,13 @@
 		{ id: 2, page: '/team', name: 'Naši zaposlenici' },
 		{ id: 3, page: '/history', name: 'Povijest' },
 		{ id: 4, page: '/contact', name: 'Kontakt' },
-		{ id: 5, page: '/gallery', name: 'Galerija'}
+		{ id: 5, page: '/gallery', name: 'Galerija' }
 	];
 	const socialsLinks = [
 		{ id: 1, page: 'https://www.facebook.com/bjelopic', name: 'Facebook' },
 		{ id: 2, page: 'https://www.instagram.com/bjelopic/', name: 'Instagram' },
 		{ id: 3, page: 'https://github.com/OrakMoya/bjelopic', name: 'GitHub' },
-		{ id: 4, page: 'https://www.youtube.com/@bjelopic', name: "YouTube"}
+		{ id: 4, page: 'https://www.youtube.com/@bjelopic', name: 'YouTube' }
 	];
 	const navigationSections = [
 		{ id: 1, section: 'Informacije', links: infoLinks },

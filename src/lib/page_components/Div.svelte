@@ -2,7 +2,7 @@
 	/**
 	 * @type {any[]}
 	 */
-	export let content; 
+	export let content;
 </script>
 
 <div class="h-4">

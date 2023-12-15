@@ -1,5 +1,5 @@
 <script>
-	import LandingScreen from "../../lib/LandingScreen.svelte";
+	import LandingScreen from './LandingScreen.svelte';
 </script>
 
 <LandingScreen />

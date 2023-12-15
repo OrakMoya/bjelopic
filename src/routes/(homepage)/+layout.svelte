@@ -1,26 +1,24 @@
 <script>
-	import Header from '$lib/Header.svelte';
-	import Footer from '$lib/Footer.svelte';
-	import Meta from '$lib/Meta.svelte';
+	import Header from '$lib/page_components/Header.svelte';
+	import Footer from '$lib/page_components/Footer.svelte';
+	import Meta from '$lib/page_components/Meta.svelte';
 	import { fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
-	
+
 	/**
 	 * @type {number}
 	 */
 	let y;
-	
+
 	/**
 	 * @type {number}
 	 */
 	let viewport_height;
 
-	let page_title = "BjeloPIC";
+	let page_title = 'BjeloPIC';
 </script>
 
 <Meta title={page_title} append_website={false} />
-
-
 
 {#if y > 0}
 	<div
