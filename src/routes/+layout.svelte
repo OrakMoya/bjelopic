@@ -1,7 +1,6 @@
 <script>
 	import '../app.css';
 	import { website_title } from '$lib/stores';
-	export const ssr = true;
 </script>
 
 <svelte:head>
