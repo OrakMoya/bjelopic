@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
+import type { pages, pagesId } from './pages';
 import type {
 	work_employees_participated,
 	work_employees_participatedId
@@ -13,6 +14,8 @@ export interface employeesAttributes {
 	email?: string;
 	phone_number?: string;
 	join_date?: string;
+	profile_picture_path?: string;
+	page?: string;
 }
 
 export type employeesPk = 'id';
@@ -22,7 +25,9 @@ export type employeesOptionalAttributes =
 	| 'middle_name'
 	| 'email'
 	| 'phone_number'
-	| 'join_date';
+	| 'join_date'
+	| 'profile_picture_path'
+	| 'page';
 export type employeesCreationAttributes = Optional<
 	employeesAttributes,
 	employeesOptionalAttributes
@@ -39,7 +44,21 @@ export class employees
 	email?: string;
 	phone_number?: string;
 	join_date?: string;
+	profile_picture_path?: string;
+	page?: string;
 
+	// employees hasMany pages via target_page_name
+	pages!: pages[];
+	getPages!: Sequelize.HasManyGetAssociationsMixin<pages>;
+	setPages!: Sequelize.HasManySetAssociationsMixin<pages, pagesId>;
+	addPage!: Sequelize.HasManyAddAssociationMixin<pages, pagesId>;
+	addPages!: Sequelize.HasManyAddAssociationsMixin<pages, pagesId>;
+	createPage!: Sequelize.HasManyCreateAssociationMixin<pages>;
+	removePage!: Sequelize.HasManyRemoveAssociationMixin<pages, pagesId>;
+	removePages!: Sequelize.HasManyRemoveAssociationsMixin<pages, pagesId>;
+	hasPage!: Sequelize.HasManyHasAssociationMixin<pages, pagesId>;
+	hasPages!: Sequelize.HasManyHasAssociationsMixin<pages, pagesId>;
+	countPages!: Sequelize.HasManyCountAssociationsMixin;
 	// employees hasMany work_employees_participated via employee_id
 	work_employees_participateds!: work_employees_participated[];
 	getWork_employees_participateds!: Sequelize.HasManyGetAssociationsMixin<work_employees_participated>;
@@ -106,6 +125,15 @@ export class employees
 				join_date: {
 					type: DataTypes.DATEONLY,
 					allowNull: true
+				},
+				profile_picture_path: {
+					type: DataTypes.STRING(100),
+					allowNull: true
+				},
+				page: {
+					type: DataTypes.STRING(100),
+					allowNull: true,
+					unique: 'employees_page_UN'
 				}
 			},
 			{
@@ -118,6 +146,12 @@ export class employees
 						unique: true,
 						using: 'BTREE',
 						fields: [{ name: 'id' }]
+					},
+					{
+						name: 'employees_page_UN',
+						unique: true,
+						using: 'BTREE',
+						fields: [{ name: 'page' }]
 					}
 				]
 			}

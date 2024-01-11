@@ -4,12 +4,7 @@
 </script>
 
 <Header />
-<div class="absolute -z-10 overflow-hidden w-full h-screen top-0">
-	<img
-		src="/images/background.jpg"
-		alt="background"
-		class="w-full h-full object-center object-cover blur-md scale-110"
-	/>
-</div>
-<slot />
+<main class="bg-neutral-900 overflow-auto text-whiten"s>
+	<slot />
+</main>
 <Footer />

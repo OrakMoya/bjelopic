@@ -8,7 +8,7 @@ const MARIA_PWD = env.MARIA_PWD;
 const MARIA_SCHEMA = env.MARIA_SCHEMA;
 const MARIA_PORT = env.MARIA_PORT;
 
-const sequelizeClient = new Sequelize(MARIA_SCHEMA, MARIA_USER, MARIA_PWD, {
+export const sequelizeClient = new Sequelize(MARIA_SCHEMA, MARIA_USER, MARIA_PWD, {
 	host: MARIA_URL,
 	port: Number(MARIA_PORT),
 	dialect: 'mariadb'

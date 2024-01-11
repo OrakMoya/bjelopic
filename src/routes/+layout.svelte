@@ -8,5 +8,7 @@
 	<link rel="icon" type="image/png" href="/favicon.png" />
 	<script id="iframe_api" src="https://www.youtube.com/iframe_api"></script>
 </svelte:head>
+<main class="min-h-screen bg-black">
+	<slot />
+</main>
 
-<slot />

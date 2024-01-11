@@ -1,10 +1,14 @@
-import { gallery } from '$lib/server/db/collections';
 import { models } from '$lib/server/db/sequelize';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
-	const data = await gallery.find().toArray();
-	let mariaData = await models.our_works
+	/**
+	 * @type {{ title: string | undefined; subject: string | undefined; category: string | undefined; production_roles: string[]; video_ids: string[]; }[]}
+	 */
+	let returnData = [];
+
+	// Retrieves needed data and organises it into property
+	await models.our_works
 		.findAll({
 			include: [
 				{ model: models.work_videos, as: 'work_videos', attributes: ['video_id'], separate: true },
@@ -17,20 +21,40 @@ export async function load() {
 							as: 'role',
 							attributes: ['production_role']
 						}
-					],
-					separate: true
+					]
 				}
 			]
 		})
-		.then((our_works) => {
-			our_works.forEach((work) => (work.work_roles = []));
+		.then(function (our_works) {
+			our_works.forEach((our_work) => {
+				/**
+				 * @type {Array<String>}
+				 */
+				const production_roles_array = [];
+				/**
+				 * @type {Array<String>}
+				 */
+				const video_ids_array = [];
+				returnData.push({
+					title: our_work.title,
+					subject: our_work.subject,
+					category: our_work.category,
+					production_roles: our_work.work_roles.reduce(function (pV, cV, cI) {
+						pV.push(cV.role.production_role);
+						return pV;
+					}, production_roles_array),
+					video_ids: our_work.work_videos.reduce(function (pV, cV, cI) {
+						pV.push(cV.video_id);
+						return pV;
+					}, video_ids_array)
+				});
+			});
 			return our_works;
 		});
-	console.log(JSON.stringify(mariaData));
+
 	return {
 		streamed: {
-			gallery_items: data.map((data) => JSON.parse(JSON.stringify(data))),
-			maria_gallery_items: mariaData.map((data) => JSON.parse(JSON.stringify(data)))
+			maria_gallery_items: returnData
 		}
 	};
 }

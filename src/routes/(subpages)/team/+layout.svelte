@@ -5,5 +5,4 @@
 </script>
 
 <Meta title={page_title} />
-<UnderConstruction />
 <slot />

@@ -6,4 +6,6 @@
 
 <Meta title={page_title} />
 <UnderConstruction />
+<main class="text-white">
 <slot />
+		</main>

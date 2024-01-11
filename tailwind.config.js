@@ -4,7 +4,8 @@ export default {
 	theme: {
 		extend: {
 			screens: {
-				'sm-md': '704px'
+				'sm-md': '704px',
+				'md-lg': '896px'
 			},
 			backgroundImage: {
 				'bjelopic-basic-bg': "url('images/background.jpg')"

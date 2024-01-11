@@ -115,16 +115,16 @@ export class work_videos
 						fields: [{ name: 'id' }]
 					},
 					{
-						name: 'id_UNIQUE',
-						unique: true,
-						using: 'BTREE',
-						fields: [{ name: 'id' }]
-					},
-					{
 						name: 'video_id_UNIQUE',
 						unique: true,
 						using: 'BTREE',
 						fields: [{ name: 'video_id' }]
+					},
+					{
+						name: 'id_UNIQUE',
+						unique: true,
+						using: 'BTREE',
+						fields: [{ name: 'id' }]
 					},
 					{
 						name: 'work_videos_FK',

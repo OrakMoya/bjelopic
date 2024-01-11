@@ -45,16 +45,16 @@ export class roles
 						fields: [{ name: 'id' }]
 					},
 					{
-						name: 'id_UNIQUE',
-						unique: true,
-						using: 'BTREE',
-						fields: [{ name: 'id' }]
-					},
-					{
 						name: 'role_UNIQUE',
 						unique: true,
 						using: 'BTREE',
 						fields: [{ name: 'role' }]
+					},
+					{
+						name: 'id_UNIQUE',
+						unique: true,
+						using: 'BTREE',
+						fields: [{ name: 'id' }]
 					}
 				]
 			}

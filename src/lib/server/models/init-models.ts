@@ -3,6 +3,8 @@ import { employees as _employees } from './employees';
 import type { employeesAttributes, employeesCreationAttributes } from './employees';
 import { our_works as _our_works } from './our_works';
 import type { our_worksAttributes, our_worksCreationAttributes } from './our_works';
+import { pages as _pages } from './pages';
+import type { pagesAttributes, pagesCreationAttributes } from './pages';
 import { production_roles as _production_roles } from './production_roles';
 import type {
 	production_rolesAttributes,
@@ -23,6 +25,7 @@ import type { work_videosAttributes, work_videosCreationAttributes } from './wor
 export {
 	_employees as employees,
 	_our_works as our_works,
+	_pages as pages,
 	_production_roles as production_roles,
 	_roles as roles,
 	_work_employees_participated as work_employees_participated,
@@ -35,6 +38,8 @@ export type {
 	employeesCreationAttributes,
 	our_worksAttributes,
 	our_worksCreationAttributes,
+	pagesAttributes,
+	pagesCreationAttributes,
 	production_rolesAttributes,
 	production_rolesCreationAttributes,
 	rolesAttributes,
@@ -50,12 +55,15 @@ export type {
 export function initModels(sequelize: Sequelize) {
 	const employees = _employees.initModel(sequelize);
 	const our_works = _our_works.initModel(sequelize);
+	const pages = _pages.initModel(sequelize);
 	const production_roles = _production_roles.initModel(sequelize);
 	const roles = _roles.initModel(sequelize);
 	const work_employees_participated = _work_employees_participated.initModel(sequelize);
 	const work_roles = _work_roles.initModel(sequelize);
 	const work_videos = _work_videos.initModel(sequelize);
 
+	pages.belongsTo(employees, { as: 'target_page_name_employee', foreignKey: 'target_page_name' });
+	employees.hasMany(pages, { as: 'pages', foreignKey: 'target_page_name' });
 	work_employees_participated.belongsTo(employees, { as: 'employee', foreignKey: 'employee_id' });
 	employees.hasMany(work_employees_participated, {
 		as: 'work_employees_participateds',
@@ -84,6 +92,7 @@ export function initModels(sequelize: Sequelize) {
 	return {
 		employees: employees,
 		our_works: our_works,
+		pages: pages,
 		production_roles: production_roles,
 		roles: roles,
 		work_employees_participated: work_employees_participated,

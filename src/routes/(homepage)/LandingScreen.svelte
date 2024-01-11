@@ -1,12 +1,11 @@
 <script>
 	const introvideo = '/images/intro-sequence.mp4';
-	import { expoIn, expoOut, linear, quadInOut, quintOut } from 'svelte/easing';
+	import { linear, quintOut } from 'svelte/easing';
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
 	import FaAngleDown from 'svelte-icons/fa/FaAngleDown.svelte';
 	import { links_shown } from '$lib/stores';
-	const portrait_size = 80;
 	const landscape_size = 70;
 	const title_delay = 1200;
 	const title_anim_duration = 5000;
@@ -21,7 +20,6 @@
 		if ($timer > 0 && y === 0) $timer--;
 		else if (y !== 0) timer = tweened(timer_seconds);
 	}, 1000);
-	const resetTimer = () => (timer = tweened(timer_seconds));
 
 	let arrow_timer = tweened((title_delay + title_anim_duration / 2) / 1000);
 	setInterval(() => {
@@ -31,12 +29,13 @@
 	let arrows_shown = false;
 	$: arrows_shown = $arrow_timer <= 0;
 	$: links_shown.set(y > 0 ? true : $links_shown);
+
 	let show = $links_shown;
 	onMount(() => (show = true));
 
 	const subtitle_links = [
 		{ id: 1, page: '/gallery', name: 'Galerija Radova' },
-		{ id: 2, page: '/history', name: 'Povijest Studija' },
+		{ id: 2, page: 'https://www.youtube.com/@bjelopic', name: 'YouTube Kanal' },
 		{ id: 3, page: '/about', name: 'O Nama' }
 	];
 </script>
@@ -88,7 +87,7 @@
 							easing: (t) => (t === 1.0 ? t : 1.0 - Math.pow(2.7, -10.0 * t))
 						}}
 					>
-						<div
+						<h1
 							class="text-center text-7xl transition-all duration-700 sm:text-8xl lg:text-9xl drop-shadow-md justify-center flex"
 						>
 							<div
@@ -97,7 +96,7 @@
 								on:mouseenter={() => links_shown.set(true)}
 							/>
 							Bjelo<b>PIC</b>
-						</div>
+						</h1>
 						<div
 							class="text-center absolute left-1/2 -translate-x-1/2 transition-opacity duration-700 w-8 h-8 {!$links_shown &&
 							arrows_shown
