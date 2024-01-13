@@ -56,7 +56,7 @@
 			loop
 			class="absolute w-full object-cover"
 			style="-webkit-transition: -webkit-filter 1000ms 1000ms; height: {videoscreensizepercent}vh; {show
-				? 'filter: brightness(0.4);'
+				? 'filter: brightness(0.6);'
 				: ''}; "
 		>
 			<source src={introvideo} type="video/mp4" />
