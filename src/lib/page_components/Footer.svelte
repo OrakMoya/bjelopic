@@ -28,7 +28,7 @@
 			<a href="/">
 				<img class="w-8" src={logo} alt="" />
 			</a>
-			<span class="text-2xl font-bold">{@html name}</span>
+			<span class="text-2xl font-bold">{name}</span>
 			<p>{caption}</p>
 		</div>
 		<div class="basis-full sm:hidden"></div>
@@ -43,7 +43,7 @@
 			{/each}
 		</div>
 		<span class="w-full text-center font-bold basis-full mt-4"
-			>Copyright BjeloPIC 2023 | Sva prava pridržana</span
+			>&copy; {new Date().getUTCFullYear()} BjeloPIC | Sva prava pridržana</span
 		>
 	</div>
 </footer>
