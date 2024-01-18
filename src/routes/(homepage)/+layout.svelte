@@ -4,6 +4,7 @@
 	import Meta from '$lib/page_components/Meta.svelte';
 	import { fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
+	import { header_shown } from '$lib/stores';
 
 	/**
 	 * @type {number}
@@ -14,15 +15,14 @@
 	 * @type {number}
 	 */
 	let viewport_height;
-	let header_shown = false;
-	$: header_shown = (y > 0) ? true : header_shown;
+	$: header_shown.set( y > 0 ? true : $header_shown );
 
 	let page_title = 'BjeloPIC';
 </script>
 
 <Meta title={page_title} append_website={false} />
 
-{#if y > 0 || header_shown}
+{#if $header_shown}
 	<div
 		transition:fly={{ delay: 0, duration: 700, x: 0, y: -200, opacity: 1, easing: quintOut }}
 		class="fixed top-0 w-full z-20"

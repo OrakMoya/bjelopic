@@ -46,4 +46,4 @@
 			>&copy; {new Date().getUTCFullYear()} BjeloPIC | Sva prava pridržana</span
 		>
 	</div>
-</footer>
+</footer >
