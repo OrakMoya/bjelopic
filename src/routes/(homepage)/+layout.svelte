@@ -14,13 +14,15 @@
 	 * @type {number}
 	 */
 	let viewport_height;
+	let header_shown = false;
+	$: header_shown = (y > 0) ? true : header_shown;
 
 	let page_title = 'BjeloPIC';
 </script>
 
 <Meta title={page_title} append_website={false} />
 
-{#if y > 0}
+{#if y > 0 || header_shown}
 	<div
 		transition:fly={{ delay: 0, duration: 700, x: 0, y: -200, opacity: 1, easing: quintOut }}
 		class="fixed top-0 w-full z-20"

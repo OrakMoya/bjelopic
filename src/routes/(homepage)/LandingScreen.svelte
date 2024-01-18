@@ -6,7 +6,7 @@
 	import { tweened } from 'svelte/motion';
 	import FaAngleDown from 'svelte-icons/fa/FaAngleDown.svelte';
 	import { links_shown } from '$lib/stores';
-	const landscape_size = 70;
+	const landscape_size = 75;
 	const title_delay = 1200;
 	const title_anim_duration = 5000;
 	const timer_seconds = 2;
