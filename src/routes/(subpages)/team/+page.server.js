@@ -13,7 +13,8 @@ export async function load() {
 				middle_name: employee.middle_name,
 				last_name: employee.last_name,
 				profile_picture_path: employee.profile_picture_path,
-				page: employee.page
+				page: employee.page,
+				title: employee.title
 			});
 		});
 	});

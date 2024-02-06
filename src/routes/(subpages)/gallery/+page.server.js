@@ -3,7 +3,7 @@ import { models } from '$lib/server/db/sequelize';
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
 	/**
-	 * @type {{ title: string | undefined; subject: string | undefined; category: string | undefined; production_roles: string[]; video_ids: string[]; }[]}
+	 * @type {{ title: string | undefined; subject: string | undefined; category: string | undefined; production_roles: string[]; video_ids: string[]; publication_date: Date | undefined;}[]}
 	 */
 	let returnData = [];
 
@@ -23,9 +23,12 @@ export async function load() {
 						}
 					]
 				}
+			],
+			order: [
+				['publication_date', 'DESC']
 			]
 		})
-		.then(function (our_works) {
+		.then(function(our_works) {
 			our_works.forEach((our_work) => {
 				/**
 				 * @type {Array<String>}
@@ -35,15 +38,25 @@ export async function load() {
 				 * @type {Array<String>}
 				 */
 				const video_ids_array = [];
+				/**
+				* @type {Date | undefined }
+				*/
+				let this_date;
+				if (our_work.publication_date) {
+					let date_string = our_work.publication_date;
+					this_date = new Date(Date.parse(date_string))
+				}
+
 				returnData.push({
 					title: our_work.title,
 					subject: our_work.subject,
 					category: our_work.category,
-					production_roles: our_work.work_roles.reduce(function (pV, cV, cI) {
+					publication_date: this_date,
+					production_roles: our_work.work_roles.reduce(function(pV, cV, cI) {
 						pV.push(cV.role.production_role);
 						return pV;
 					}, production_roles_array),
-					video_ids: our_work.work_videos.reduce(function (pV, cV, cI) {
+					video_ids: our_work.work_videos.reduce(function(pV, cV, cI) {
 						pV.push(cV.video_id);
 						return pV;
 					}, video_ids_array)

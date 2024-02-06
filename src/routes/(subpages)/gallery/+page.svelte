@@ -1,17 +1,7 @@
 <script>
-	// @ts-ignore
 	import YouTubeIFrame from '$lib/page_components/YouTubeIFrame.svelte';
+	import { parse } from 'svelte/compiler';
 	export let data;
-
-	/**
-	 * @param {string | number | Date} date
-	 */
-	function formatDate(date) {
-		let string = '';
-		let dateObj = new Date(date);
-		string += dateObj.getDay() + '.' + dateObj.getMonth() + '.' + dateObj.getFullYear() + '.';
-		return string;
-	}
 </script>
 
 {#await data.streamed.maria_gallery_items}
@@ -19,7 +9,11 @@
 {:then gallery_items}
 	{#each gallery_items as item, i}
 		<section class="w-full {i % 2 === 0 ? 'bg-slate-800' : 'bg-slate-900'} text-white p-6">
-			<div class="w-full max-w-6xl mx-auto flex justify-center flex-wrap-reverse">
+			<div
+				class="w-full max-w-6xl mx-auto flex justify-center flex-wrap-reverse {i % 2 === 1
+					? 'flex-row-reverse'
+					: ''}"
+			>
 				<div class="flex flex-wrap w-full {item.video_ids.length > 1 ? 'w-full' : 'md:w-2/3'}">
 					{#each item.video_ids as youtubeVideoId, j}
 						<div
@@ -38,16 +32,27 @@
 					{/each}
 				</div>
 				<article
-					class="w-full p-2 md:pl-6 text-center {item.video_ids.length > 1
+					class="w-full p-2 {i % 2 === 1 ? 'md:pr-6' : 'md:pl-6'} text-center {item.video_ids
+						.length > 1
 						? 'md:w-full basis-100'
-						: 'md:text-left md:w-1/3 '}"
+						: i % 2 === 1
+							? 'md:text-right md:w-1/3'
+							: 'md:text-left md:w-1/3'} flex flex-col gap-2"
 				>
-					<h2 class="text-2xl lg:text-4xl mb-1 font-bold transition-all">{item.title}</h2>
-					<h4 class="text-lg mb-2">{item.category}</h4>
+					<h2 class="text-2xl lg:text-4xl font-bold transition-all">
+						<span class="text-blue-300">{item.subject} - </span>{item.title}
+						{#if ! isNaN(item.publication_date)}
+							<span class="text-blue-300">({item.publication_date.getFullYear()})</span>
+						{/if}
+					</h2>
+
+					<p class="text-lg">{item.category}</p>
 					<div
 						class="flex flex-wrap justify-center w-full gap-2 {item.video_ids.length > 1
 							? 'md:justify-center'
-							: 'md:justify-normal'}"
+							: i % 2 === 1
+								? 'md:justify-normal flex-row-reverse'
+								: 'md:justify-normal flex-row'}"
 					>
 						{#each item.production_roles as role}
 							<span class="bg-orange-500 px-2 rounded drop-shadow-lg">

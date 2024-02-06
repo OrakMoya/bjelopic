@@ -5,7 +5,7 @@
 <h1
 	class="text-center text-white text-5xl md:text-6xl lg:text-7xl transition-all duration-500 font-bold my-10"
 >
-	Zaposlenici
+	Upravni Odbor
 </h1>
 {#await data.streamed.employees}
 	Page is loading...
@@ -28,7 +28,7 @@
 							alt={employee.page}
 						/>
 					</div>
-					<div class="w-full text-center text-white">
+					<div class="w-full text-center text-white flex flex-col">
 						<h3
 							class="text-lg lg:text-xl font-bold transition-all duration-500 sm-md:duration-0 md:duration-500"
 						>
@@ -38,6 +38,11 @@
 							{/if}
 							{employee.last_name}
 						</h3>
+						{#if employee.title}
+							<h4>
+								{employee.title}
+							</h4>
+						{/if}
 					</div>
 				</article>
 			</div>
