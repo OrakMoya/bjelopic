@@ -9,11 +9,12 @@ export interface our_worksAttributes {
   subject?: string;
   category?: string;
   publication_date?: string;
+  priority: number;
 }
 
 export type our_worksPk = "id";
 export type our_worksId = our_works[our_worksPk];
-export type our_worksOptionalAttributes = "id" | "title" | "subject" | "category" | "publication_date";
+export type our_worksOptionalAttributes = "id" | "title" | "subject" | "category" | "publication_date" | "priority";
 export type our_worksCreationAttributes = Optional<our_worksAttributes, our_worksOptionalAttributes>;
 
 export class our_works extends Model<our_worksAttributes, our_worksCreationAttributes> implements our_worksAttributes {
@@ -22,6 +23,7 @@ export class our_works extends Model<our_worksAttributes, our_worksCreationAttri
   subject?: string;
   category?: string;
   publication_date?: string;
+  priority!: number;
 
   // our_works hasMany work_roles via work_id
   work_roles!: work_roles[];
@@ -71,6 +73,11 @@ export class our_works extends Model<our_worksAttributes, our_worksCreationAttri
     publication_date: {
       type: DataTypes.DATEONLY,
       allowNull: true
+    },
+    priority: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
     }
   }, {
     sequelize,

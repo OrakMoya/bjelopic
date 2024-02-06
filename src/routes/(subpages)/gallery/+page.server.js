@@ -1,9 +1,14 @@
 import { models } from '$lib/server/db/sequelize';
 
+
+function compare(a, b){
+	return b.priority - a.priority;
+}
+
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
 	/**
-	 * @type {{ title: string | undefined; subject: string | undefined; category: string | undefined; production_roles: string[]; video_ids: string[]; publication_date: Date | undefined;}[]}
+	 * @type {{ title: string | undefined; subject: string | undefined; category: string | undefined; production_roles: string[]; video_ids: string[]; publication_date: Date | undefined; priority: number;}[]}
 	 */
 	let returnData = [];
 
@@ -42,9 +47,11 @@ export async function load() {
 				* @type {Date | undefined }
 				*/
 				let this_date;
+				let this_priority = our_work.priority;
 				if (our_work.publication_date) {
 					let date_string = our_work.publication_date;
 					this_date = new Date(Date.parse(date_string))
+					this_priority = this_priority - (new Date(Date.now()).getFullYear() - this_date.getFullYear())*10
 				}
 
 				returnData.push({
@@ -52,6 +59,7 @@ export async function load() {
 					subject: our_work.subject,
 					category: our_work.category,
 					publication_date: this_date,
+					priority: this_priority,
 					production_roles: our_work.work_roles.reduce(function(pV, cV, cI) {
 						pV.push(cV.role.production_role);
 						return pV;
@@ -61,6 +69,7 @@ export async function load() {
 						return pV;
 					}, video_ids_array)
 				});
+				returnData.sort(compare);
 			});
 			return our_works;
 		});

@@ -1,6 +1,5 @@
 <script>
 	import YouTubeIFrame from '$lib/page_components/YouTubeIFrame.svelte';
-	import { parse } from 'svelte/compiler';
 	export let data;
 </script>
 
@@ -41,7 +40,7 @@
 				>
 					<h2 class="text-2xl lg:text-4xl font-bold transition-all">
 						<span class="text-blue-300">{item.subject} - </span>{item.title}
-						{#if ! isNaN(item.publication_date)}
+						{#if item.publication_date}
 							<span class="text-blue-300">({item.publication_date.getFullYear()})</span>
 						{/if}
 					</h2>
