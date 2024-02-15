@@ -1,12 +1,16 @@
 import { models } from '$lib/server/db/sequelize';
+import { json } from '@sveltejs/kit';
 
 
+/**
+ * @param {{ priority: number; }} a
+ * @param {{ priority: number; }} b
+ */
 function compare(a, b){
 	return b.priority - a.priority;
 }
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load() {
+async function getWorks(){
 	/**
      * @type {{ title: string | undefined; subject: string | undefined; category: string | undefined; publication_date: Date | undefined; priority: number; production_roles: string[]; video_thumbnails: { thumbnail_filename: string; preview_filename: string | undefined; }[]; }[]}
      */
@@ -40,7 +44,7 @@ export async function load() {
 				 */
 				const production_roles_array = [];
 				/**
-                 * @type {{thumbnail_filename: string; preview_filename: string | undefined}[]}
+                 * @type {{thumbnail_filename: string; preview_filename: string | undefined; url: string | undefined;}[]}
                  */
 				const video_thumbnails_array = [];
 				/**
@@ -83,4 +87,9 @@ export async function load() {
 			maria_gallery_items: returnData
 		}
 	};
+
+}
+
+export async function GET(){
+	return json(await getWorks());
 }

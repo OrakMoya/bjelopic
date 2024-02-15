@@ -8,7 +8,7 @@ export interface our_worksAttributes {
   title?: string;
   subject?: string;
   category?: string;
-  publication_date?: string;
+  publication_date: string;
   priority: number;
 }
 
@@ -22,7 +22,7 @@ export class our_works extends Model<our_worksAttributes, our_worksCreationAttri
   title?: string;
   subject?: string;
   category?: string;
-  publication_date?: string;
+  publication_date!: string;
   priority!: number;
 
   // our_works hasMany work_roles via work_id
@@ -72,7 +72,8 @@ export class our_works extends Model<our_worksAttributes, our_worksCreationAttri
     },
     publication_date: {
       type: DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: false,
+      defaultValue: Sequelize.Sequelize.fn('curdate')
     },
     priority: {
       type: DataTypes.INTEGER,

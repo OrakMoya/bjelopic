@@ -5,23 +5,25 @@ import type { work_employees_participated, work_employees_participatedId } from 
 
 export interface work_videosAttributes {
   id: number;
-  video_id: string;
-  video_service: string;
   work_id: number;
   reference_title?: string;
+  video_thumbnail_filename: string;
+  video_preview_filename?: string;
+  url: string;
 }
 
 export type work_videosPk = "id";
 export type work_videosId = work_videos[work_videosPk];
-export type work_videosOptionalAttributes = "id" | "video_service" | "reference_title";
+export type work_videosOptionalAttributes = "id" | "reference_title" | "video_preview_filename";
 export type work_videosCreationAttributes = Optional<work_videosAttributes, work_videosOptionalAttributes>;
 
 export class work_videos extends Model<work_videosAttributes, work_videosCreationAttributes> implements work_videosAttributes {
   id!: number;
-  video_id!: string;
-  video_service!: string;
   work_id!: number;
   reference_title?: string;
+  video_thumbnail_filename!: string;
+  video_preview_filename?: string;
+  url!: string;
 
   // work_videos belongsTo our_works via work_id
   work!: our_works;
@@ -49,16 +51,6 @@ export class work_videos extends Model<work_videosAttributes, work_videosCreatio
       allowNull: false,
       primaryKey: true
     },
-    video_id: {
-      type: DataTypes.STRING(45),
-      allowNull: false,
-      unique: "video_id_UNIQUE"
-    },
-    video_service: {
-      type: DataTypes.STRING(45),
-      allowNull: false,
-      defaultValue: "youtube"
-    },
     work_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -70,6 +62,18 @@ export class work_videos extends Model<work_videosAttributes, work_videosCreatio
     reference_title: {
       type: DataTypes.STRING(100),
       allowNull: true
+    },
+    video_thumbnail_filename: {
+      type: DataTypes.STRING(100),
+      allowNull: false
+    },
+    video_preview_filename: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    url: {
+      type: DataTypes.STRING(200),
+      allowNull: false
     }
   }, {
     sequelize,
@@ -85,19 +89,20 @@ export class work_videos extends Model<work_videosAttributes, work_videosCreatio
         ]
       },
       {
-        name: "video_id_UNIQUE",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "video_id" },
-        ]
-      },
-      {
         name: "id_UNIQUE",
         unique: true,
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "work_videos_previews_unique",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "video_thumbnail_filename" },
+          { name: "video_preview_filename" },
         ]
       },
       {

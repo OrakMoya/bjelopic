@@ -1,5 +1,7 @@
 <script>
-	import YouTubeIFrame from '$lib/page_components/YouTubeIFrame.svelte';
+	import GalleryVideo from '$lib/page_components/GalleryVideo.svelte';
+import SixteenByNineContainer from '$lib/page_components/SixteenByNineContainer.svelte';
+
 	export let data;
 </script>
 
@@ -13,25 +15,25 @@
 					? 'flex-row-reverse'
 					: ''}"
 			>
-				<div class="flex flex-wrap w-full {item.video_ids.length > 1 ? 'w-full' : 'md:w-2/3'}">
-					{#each item.video_ids as youtubeVideoId, j}
+				<div class="flex flex-wrap w-full {item.video_thumbnails.length > 1 ? 'w-full' : 'md:w-2/3'}">
+					{#each item.video_thumbnails as video_data, j}
 						<div
 							class="drop-shadow-sm hover:scale-105 transition-all duration-700 w-full p-2 {item
-								.video_ids.length > 1 &&
-							(j != item.video_ids.length - 1 || item.video_ids.length % 2 === 0)
+								.video_thumbnails.length > 1 &&
+							(j != item.video_thumbnails.length - 1 || item.video_thumbnails.length % 2 === 0)
 								? 'md:w-1/2'
-								: ''} {j === item.video_ids.length - 1 &&
-							item.video_ids.length > 1 &&
-							item.video_ids.length % 2
+								: ''} {j === item.video_thumbnails.length - 1 &&
+							item.video_thumbnails.length > 1 &&
+							item.video_thumbnails.length % 2
 								? 'md:w-2/3 mx-auto'
 								: ' '}"
 						>
-							<YouTubeIFrame initialVideoID={youtubeVideoId} playerID="player-{j}-{i}" />
+							<GalleryVideo url={video_data.url} preview_path={video_data.preview_filename} thumbnail_path={video_data.thumbnail_filename} alt_text="{item.title}" />
 						</div>
 					{/each}
 				</div>
 				<article
-					class="w-full p-2 {i % 2 === 1 ? 'md:pr-6' : 'md:pl-6'} text-center {item.video_ids
+					class="w-full p-2 {i % 2 === 1 ? 'md:pr-6' : 'md:pl-6'} text-center {item.video_thumbnails
 						.length > 1
 						? 'md:w-full basis-100'
 						: i % 2 === 1
@@ -47,7 +49,7 @@
 
 					<p class="text-lg">{item.category}</p>
 					<div
-						class="flex flex-wrap justify-center w-full gap-2 {item.video_ids.length > 1
+						class="flex flex-wrap justify-center w-full gap-2 {item.video_thumbnails.length > 1
 							? 'md:justify-center'
 							: i % 2 === 1
 								? 'md:justify-normal flex-row-reverse'
