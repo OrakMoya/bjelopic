@@ -4,7 +4,7 @@
 </script>
 
 <Header />
-<main class="bg-neutral-900 overflow-auto text-whiten"s>
+<main class="bg-neutral-900 overflow-auto text-white"s>
 	<slot />
 </main>
 <Footer />

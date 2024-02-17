@@ -1,11 +1,10 @@
 <script>
 	import GalleryVideo from '$lib/page_components/GalleryVideo.svelte';
-import SixteenByNineContainer from '$lib/page_components/SixteenByNineContainer.svelte';
 
 	export let data;
 </script>
 
-{#await data.streamed.maria_gallery_items}
+{#await data.maria_gallery_items}
 	LooDung
 {:then gallery_items}
 	{#each gallery_items as item, i}
@@ -15,7 +14,9 @@ import SixteenByNineContainer from '$lib/page_components/SixteenByNineContainer.
 					? 'flex-row-reverse'
 					: ''}"
 			>
-				<div class="flex flex-wrap w-full {item.video_thumbnails.length > 1 ? 'w-full' : 'md:w-2/3'}">
+				<div
+					class="flex flex-wrap w-full {item.video_thumbnails.length > 1 ? 'w-full' : 'md:w-2/3'}"
+				>
 					{#each item.video_thumbnails as video_data, j}
 						<div
 							class="drop-shadow-sm hover:scale-105 transition-all duration-700 w-full p-2 {item
@@ -28,7 +29,12 @@ import SixteenByNineContainer from '$lib/page_components/SixteenByNineContainer.
 								? 'md:w-2/3 mx-auto'
 								: ' '}"
 						>
-							<GalleryVideo url={video_data.url} preview_path={video_data.preview_filename} thumbnail_path={video_data.thumbnail_filename} alt_text="{item.title}" />
+							<GalleryVideo
+								url={video_data.url}
+								preview_path={video_data.preview_filename}
+								thumbnail_path={video_data.thumbnail_filename}
+								alt_text={item.title}
+							/>
 						</div>
 					{/each}
 				</div>
@@ -43,7 +49,7 @@ import SixteenByNineContainer from '$lib/page_components/SixteenByNineContainer.
 					<h2 class="text-2xl lg:text-4xl font-bold transition-all">
 						<span class="text-blue-300">{item.subject} - </span>{item.title}
 						{#if item.publication_date}
-							<span class="text-blue-300">({item.publication_date.getFullYear()})</span>
+							<span class="text-blue-300">({new Date(item.publication_date).getFullYear()})</span>
 						{/if}
 					</h2>
 

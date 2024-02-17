@@ -6,14 +6,14 @@ import { json } from '@sveltejs/kit';
  * @param {{ priority: number; }} a
  * @param {{ priority: number; }} b
  */
-function compare(a, b){
+function compare(a, b) {
 	return b.priority - a.priority;
 }
 
-async function getWorks(){
+async function getWorks() {
 	/**
-     * @type {{ title: string | undefined; subject: string | undefined; category: string | undefined; publication_date: Date | undefined; priority: number; production_roles: string[]; video_thumbnails: { thumbnail_filename: string; preview_filename: string | undefined; }[]; }[]}
-     */
+	 * @type {GalleryVideo[]}
+	 */
 	let returnData = [];
 
 	// Retrieves needed data and organises it into property
@@ -44,8 +44,8 @@ async function getWorks(){
 				 */
 				const production_roles_array = [];
 				/**
-                 * @type {{thumbnail_filename: string; preview_filename: string | undefined; url: string | undefined;}[]}
-                 */
+				 * @type {{thumbnail_filename: string; preview_filename: string | undefined; url: string | undefined;}[]}
+				 */
 				const video_thumbnails_array = [];
 				/**
 				* @type {Date | undefined }
@@ -55,7 +55,7 @@ async function getWorks(){
 				if (our_work.publication_date) {
 					let date_string = our_work.publication_date;
 					this_date = new Date(Date.parse(date_string))
-					this_priority = this_priority - (new Date(Date.now()).getFullYear() - this_date.getFullYear())*10
+					this_priority = this_priority - (new Date(Date.now()).getFullYear() - this_date.getFullYear()) * 10
 				}
 
 				returnData.push({
@@ -64,16 +64,16 @@ async function getWorks(){
 					category: our_work.category,
 					publication_date: this_date,
 					priority: this_priority,
-					production_roles: our_work.work_roles.reduce(function(previous_value, current_value, _current_index) {
+					production_roles: our_work.work_roles.reduce(function(previous_value, current_value) {
 						previous_value.push(current_value.role.production_role);
 						return previous_value;
 					}, production_roles_array),
-					video_thumbnails: our_work.work_videos.reduce(function(pV, cV, _cI) {
+					video_thumbnails: our_work.work_videos.reduce(function(pV, cV) {
 						pV.push({
-						thumbnail_filename: cV.video_thumbnail_filename,
-						preview_filename: cV.video_preview_filename,
-						url: cV.url
-					});
+							thumbnail_filename: cV.video_thumbnail_filename,
+							preview_filename: cV.video_preview_filename,
+							url: cV.url
+						});
 						return pV;
 					}, video_thumbnails_array)
 				});
@@ -83,13 +83,11 @@ async function getWorks(){
 		});
 
 	return {
-		streamed: {
-			maria_gallery_items: returnData
-		}
+		maria_gallery_items: returnData
 	};
 
 }
 
-export async function GET(){
+export async function GET() {
 	return json(await getWorks());
 }
