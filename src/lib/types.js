@@ -13,7 +13,8 @@
 /**
  * @typedef BlogPost
  * @type {object}
- * @property {string|undefined} title
+ * @property {unknown} metadata
+ * @property {string} title
  * @property {string} filename
  * @property {string} filepath
  * @property {string} contents

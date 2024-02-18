@@ -36,7 +36,8 @@
 	const subtitle_links = [
 		{ id: 1, page: '/gallery', name: 'Galerija Radova' },
 		{ id: 2, page: 'https://www.youtube.com/@bjelopic', name: 'YouTube Kanal' },
-		{ id: 3, page: '/about', name: 'O Nama' }
+		{id: 3, page: '/blog', name: 'Blog'},
+		{ id: 4, page: '/about', name: 'O Nama' }
 	];
 </script>
 

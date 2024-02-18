@@ -3,7 +3,7 @@
 </script>
 
 <h1
-	class="text-center text-white text-5xl md:text-6xl lg:text-7xl transition-all duration-500 font-bold my-10"
+	class="text-center  text-5xl md:text-6xl lg:text-7xl transition-all duration-500 font-bold my-10"
 >
 	Upravni Odbor
 </h1>

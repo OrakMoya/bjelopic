@@ -20,10 +20,10 @@ FROM node:latest
 
 RUN mkdir /app
 COPY --from=builder /app/build /app/build
-COPY --from=builder /app/package.json /app/package-lock.json /app/
+COPY --from=builder /app/package.json /app/package-lock.json /app/express_server.js /app/
 
 RUN cd /app && npm install --omit=dev
 WORKDIR /app
-CMD ["node", "build/index.js"]
+CMD ["node", "express_server.js"]
 
 EXPOSE 3000

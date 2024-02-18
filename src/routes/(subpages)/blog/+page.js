@@ -1,6 +1,6 @@
 /** @type {import('./$types').PageLoad} */
 export async function load({fetch}){
-	const response = await fetch('api/blog/posts');
+	const response = await fetch('/api/blog/posts');
 	/**
 	* @type {BlogPost[]}
 		*/
